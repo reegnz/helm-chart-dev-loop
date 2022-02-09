@@ -18,6 +18,10 @@ serviceAccount:
   # Only getting applied if create: true
   extraLabels:
 
+service:
+  extraLabels:
+  annotations:
+
 deployment:
   # replicas: 3
 
