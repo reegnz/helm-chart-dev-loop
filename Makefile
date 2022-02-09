@@ -1,6 +1,10 @@
-.PHONY: watch
-watch: run
+.PHONY: watchman 
+watchman: run
 	watchman-make -p '**/*' -t run
+
+.PHONY: watchexec
+watchexec:
+	watchexec -i out -- make run
 
 .PHONY: run
 run:
