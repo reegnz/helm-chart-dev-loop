@@ -1,6 +1,6 @@
 .PHONY: watch
 watch: run
-	watchman-make -p templates/* values.yaml values.testing.yaml -t run
+	watchman-make -p '**/*' -t run
 
 .PHONY: run
 run:
