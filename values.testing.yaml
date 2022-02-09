@@ -1,0 +1,12 @@
+deployment:
+  extraEnv:
+    PGHOST:
+      valueFrom:
+        configMapKeyRef:
+          name: db-config
+          key: PGHOST
+    PGPORT:
+      valueFrom:
+        configMapKeyRef:
+          name: db-config
+          key: PGPORT

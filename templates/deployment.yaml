@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "app.name" . }}
+  labels:
+    app.kubernetes.io/name: {{ template "app.name" .}}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- with .Values.deployment.extraLabels }}
+    {{- toYaml . | nindent 4}}
+    {{- end }}
+  {{- with .Values.deployment.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4}}
+  {{- end }}
+spec:
+  {{- if .Values.deployment.replicas }}
+  replicas: {{ .Values.deployment.replicas }}
+  {{- end }}
+  {{- if .Values.deployment.strategy }}
+  {{- toYaml .Values.deployment.strategy | nindent 2}}
+  {{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ template "app.name" .}}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ template "app.name" .}}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- with .Values.deployment.podTemplateExtraLabels }}
+        {{- toYaml . | nindent 8}}
+        {{- end }}
+      {{- with .Values.deployment.podTemplateAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8}}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ template "sa.name" . }}
+      containers:
+        - name: simple-app
+          image: {{ .Values.deployment.containerImage }}
+          env:
+            - name: STATIC_VAR
+              value: static
+            {{- range $key, $value := .Values.deployment.extraEnv }}
+            - name: {{ $key }}
+              {{- toYaml $value | nindent 14 }}
+            {{- end }}

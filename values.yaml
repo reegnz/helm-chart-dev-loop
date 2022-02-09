@@ -1,0 +1,52 @@
+---
+# Definition of the service account the pods run as
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+
+  # The name of the service account to use.
+  # If create is false, this name is still used in the pods
+  # if it is defined. That way if you have an existing
+  # service account you can wire it up to the pods here
+  # name: custom-sa-name
+
+  # annotations for the service account
+  # Only getting applied if create: true
+  annotations:
+
+  # Extra labels for the service account
+  # Only getting applied if create: true
+  extraLabels:
+
+deployment:
+  # replicas: 3
+
+  # Strategy for updating the deployment.
+  # strategy:
+  #   type: RollingUpdate
+  #   rollingUpdate:
+  #     maxSurge: 25%
+  #     maxUnavailable: 25%
+
+  # annotations for the deployment
+  annotations:
+
+  # Extra labels for the deployment
+  extraLabels:
+
+  # annotations for the pod template
+  podTemplateAnnotations:
+
+  # Extra labels for the pod template
+  podTemplateExtraLabels:
+
+  containerImage: nginx:latest
+
+  extraEnv:
+    HELLO:
+      value: WORLD
+
+  # TODO: affinity
+  # TODO: tolerations
+  # TODO: nodeselector
+  # TODO: priorityClass
